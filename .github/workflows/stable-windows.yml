@@ -31,9 +31,9 @@ on:
     - '**/*.md'
 
 env:
-  APP_NAME: Void
+  APP_NAME: QingLion
   ASSETS_REPOSITORY: ${{ github.repository_owner }}/binaries
-  BINARY_NAME: void
+  BINARY_NAME: qinglion
   GH_REPO_PATH: ${{ github.repository_owner }}/binaries
   ORG_NAME: ${{ github.repository_owner }}
   OS_NAME: windows
@@ -62,6 +62,7 @@ jobs:
 
       - name: Clone VSCode repo
         env: # Void added this
+          GITHUB_TOKEN: ${{ secrets.STRONGER_GITHUB_TOKEN }} # QingLion added this
           VOID_COMMIT: ${{ github.event.inputs.void_commit }} # Void added this
           VOID_RELEASE: ${{ github.event.inputs.void_release }} # Void added this
         run: ./get_repo.sh
