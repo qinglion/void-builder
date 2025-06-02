@@ -23,7 +23,7 @@ if [[ "${VSCODE_ARCH}" == "x64" ]]; then
 
   # add update's url
   # Void - this line is important - ask GPT about it
-  sed -i 's/generate_type2_appimage/generate_type2_appimage -u "gh-releases-zsync|voideditor|binaries|latest|*.AppImage.zsync"/' pkg2appimage.AppDir/AppRun
+  sed -i 's/generate_type2_appimage/generate_type2_appimage -u "gh-releases-zsync|voideditor|qinglion|binaries|latest|*.AppImage.zsync"/' pkg2appimage.AppDir/AppRun
 
   # remove check so build in docker can succeed
   sed -i 's/grep docker/# grep docker/' pkg2appimage.AppDir/usr/share/pkg2appimage/functions.sh
