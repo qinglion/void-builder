@@ -30,7 +30,15 @@ mkdir -p vscode
 cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
 git init -q
-git remote add origin https://github.com/qinglion/void.git
+
+# Use authenticated URL if GITHUB_TOKEN is available (for private repos)
+if [[ -n "${GITHUB_TOKEN}" ]]; then
+  echo "Using authenticated clone with GitHub token"
+  git remote add origin https://${GITHUB_TOKEN}@github.com/qinglion/void.git
+else
+  echo "Using public clone (no token provided)"
+  git remote add origin https://github.com/qinglion/void.git
+fi
 
 # Allow callers to specify a particular commit to checkout via the
 # environment variable VOID_COMMIT.  We still default to the tip of the
