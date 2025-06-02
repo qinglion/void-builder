@@ -3,6 +3,15 @@
 
 set -ex
 
+# Echo all environment variables used by this script
+echo "----------- release -----------"
+echo "Environment variables:"
+echo "GH_TOKEN=${GH_TOKEN}"
+echo "GITHUB_TOKEN=${GITHUB_TOKEN}"
+echo "GH_ENTERPRISE_TOKEN=${GH_ENTERPRISE_TOKEN}"
+echo "GITHUB_ENTERPRISE_TOKEN=${GITHUB_ENTERPRISE_TOKEN}"
+echo "-------------------------"
+
 if [[ -z "${GH_TOKEN}" ]] && [[ -z "${GITHUB_TOKEN}" ]] && [[ -z "${GH_ENTERPRISE_TOKEN}" ]] && [[ -z "${GITHUB_ENTERPRISE_TOKEN}" ]]; then
   echo "Will not release because no GITHUB_TOKEN defined"
   exit
