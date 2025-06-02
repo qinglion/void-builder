@@ -81,7 +81,7 @@ jobs:
 
       - name: Clone VSCode repo
         env: # Void added this
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.STRONGER_GITHUB_TOKEN }}
           VOID_COMMIT: ${{ github.event.inputs.void_commit }} # Void added this
           VOID_RELEASE: ${{ github.event.inputs.void_release }} # Void added this
         run: . get_repo.sh
