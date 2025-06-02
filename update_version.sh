@@ -3,6 +3,18 @@
 
 set -e
 
+# Echo all environment variables used by this script
+echo "----------- release -----------"
+echo "Environment variables:"
+echo "SHOULD_BUILD=${SHOULD_BUILD}"
+echo "FORCE_UPDATE=${FORCE_UPDATE}"
+
+echo "GH_TOKEN=${GH_TOKEN}"
+echo "GITHUB_TOKEN=${GITHUB_TOKEN}"
+echo "GH_ENTERPRISE_TOKEN=${GH_ENTERPRISE_TOKEN}"
+echo "GITHUB_ENTERPRISE_TOKEN=${GITHUB_ENTERPRISE_TOKEN}"
+echo "-------------------------"
+
 if [[ "${SHOULD_BUILD}" != "yes" && "${FORCE_UPDATE}" != "true" ]]; then
   echo "Will not update version JSON because we did not build"
   exit 0
