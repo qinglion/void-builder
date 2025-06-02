@@ -2,7 +2,7 @@
 
 This is a fork of VSCodium, which has a nice build pipeline that we're using for Void. Big thanks to the CodeStory team for inspiring this.
 
-The purpose of this repo is to run [Github Actions](https://github.com/voideditor/void-builder/actions). These actions build all the Void assets (.dmg, .zip, etc), store them on a release in [`voideditor/binaries`](https://github.com/voideditor/binaries/releases), and then set the latest version in [`voideditor/versions`](https://github.com/voideditor/versions) so the versions can be tracked for updating in the Void app.
+The purpose of this repo is to run [Github Actions](https://github.com/qinglion/void-builder/actions). These actions build all the Void assets (.dmg, .zip, etc), store them on a release in [`qinglion/binaries`](https://github.com/qinglion/binaries/releases), and then set the latest version in [`qinglion/versions`](https://github.com/qinglion/versions) so the versions can be tracked for updating in the Void app.
 
 ## Notes
 
