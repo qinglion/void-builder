@@ -13,6 +13,11 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
   cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
   export NODE_OPTIONS="--max-old-space-size=8192"
+  
+  if [[ "${OS_NAME}" == "osx" ]]; then
+    ulimit -n 65536
+    echo "Increased macOS file descriptor limit to: $(ulimit -n)"
+  fi
 
   # Skip monaco-compile-check as it's failing due to searchUrl property
   # Skip valid-layers-check as well since it might depend on monaco
