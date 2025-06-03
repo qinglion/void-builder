@@ -13,13 +13,6 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
   cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
   export NODE_OPTIONS="--max-old-space-size=8192"
-  
-  if [[ "${OS_NAME}" == "osx" ]]; then
-    ulimit -n 65536
-    export NODE_OPTIONS="${NODE_OPTIONS} --expose-gc --unhandled-rejections=warn"
-    # 设置 UV 线程池大小以更好地处理文件操作
-    export UV_THREADPOOL_SIZE=128
-  fi
 
   # Skip monaco-compile-check as it's failing due to searchUrl property
   # Skip valid-layers-check as well since it might depend on monaco
