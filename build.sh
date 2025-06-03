@@ -16,7 +16,9 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
   
   if [[ "${OS_NAME}" == "osx" ]]; then
     ulimit -n 65536
-    echo "Increased macOS file descriptor limit to: $(ulimit -n)"
+    export NODE_OPTIONS="${NODE_OPTIONS} --expose-gc --unhandled-rejections=warn"
+    # 设置 UV 线程池大小以更好地处理文件操作
+    export UV_THREADPOOL_SIZE=128
   fi
 
   # Skip monaco-compile-check as it's failing due to searchUrl property
