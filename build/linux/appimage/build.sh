@@ -29,12 +29,12 @@ if [[ "${VSCODE_ARCH}" == "x64" ]]; then
   sed -i 's/grep docker/# grep docker/' pkg2appimage.AppDir/usr/share/pkg2appimage/functions.sh
 
   if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-    sed -i 's|@@NAME@@|Void-Insiders|g' recipe.yml
+    sed -i 's|@@NAME@@|QingLion-Insiders|g' recipe.yml
     sed -i 's|@@APPNAME@@|void-insiders|g' recipe.yml
     sed -i 's|@@ICON@@|void-insiders|g' recipe.yml
   else
     # Void branding instead of default codium
-    sed -i 's|@@NAME@@|Void|g' recipe.yml
+    sed -i 's|@@NAME@@|QingLion|g' recipe.yml
     sed -i 's|@@APPNAME@@|void|g' recipe.yml
     sed -i 's|@@ICON@@|void|g' recipe.yml
   fi
@@ -46,6 +46,7 @@ if [[ "${VSCODE_ARCH}" == "x64" ]]; then
   rm -f pkg2appimage-*.AppImage
   rm -rf pkg2appimage.AppDir
   rm -rf Void* # Void had this commented out at one point
+  rm -rf QingLion* # QingLion had this commented out at one point
 fi
 
 cd "${CALLER_DIR}"

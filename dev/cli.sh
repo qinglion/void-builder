@@ -6,9 +6,9 @@ export VSCODE_CLI_UPDATE_URL="https://raw.githubusercontent.com/qinglion/version
 
 cargo build --release --target aarch64-apple-darwin --bin=code
 
-cp target/aarch64-apple-darwin/release/code "../../VSCode-darwin-arm64/Void.app/Contents/Resources/app/bin/void-tunnel"
+cp target/aarch64-apple-darwin/release/code "../../VSCode-darwin-arm64/QingLion.app/Contents/Resources/app/bin/void-tunnel"
 
-"../../VSCode-darwin-arm64/Void.app/Contents/Resources/app/bin/void-tunnel" serve-web
+"../../VSCode-darwin-arm64/QingLion.app/Contents/Resources/app/bin/void-tunnel" serve-web
 
 
 # export CARGO_NET_GIT_FETCH_WITH_CLI="true"

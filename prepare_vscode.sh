@@ -143,8 +143,8 @@ if [[ "${DISABLE_UPDATE}" != "yes" ]]; then
 fi
 
 if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-  setpath "product" "nameShort" "Void - Insiders"
-  setpath "product" "nameLong" "Void - Insiders"
+  setpath "product" "nameShort" "QingLion - Insiders"
+  setpath "product" "nameLong" "QingLion - Insiders"
   setpath "product" "applicationName" "void-insiders"
   setpath "product" "dataFolderName" ".void-insiders"
   setpath "product" "linuxIconName" "void-insiders"
@@ -152,13 +152,13 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "product" "urlProtocol" "void-insiders"
   setpath "product" "serverApplicationName" "void-server-insiders"
   setpath "product" "serverDataFolderName" ".void-server-insiders"
-  setpath "product" "darwinBundleIdentifier" "ai.qinglion.VoidInsiders"
-  setpath "product" "win32AppUserModelId" "Void.VoidInsiders"
-  setpath "product" "win32DirName" "Void Insiders"
+  setpath "product" "darwinBundleIdentifier" "ai.qinglion.QingLionInsiders"
+  setpath "product" "win32AppUserModelId" "QingLion.QingLionInsiders"
+  setpath "product" "win32DirName" "QingLion Insiders"
   setpath "product" "win32MutexName" "voidinsiders"
-  setpath "product" "win32NameVersion" "Void Insiders"
-  setpath "product" "win32RegValueName" "VoidInsiders"
-  setpath "product" "win32ShellNameShort" "Void Insiders"
+  setpath "product" "win32NameVersion" "QingLion Insiders"
+  setpath "product" "win32RegValueName" "QingLionInsiders"
+  setpath "product" "win32ShellNameShort" "QingLion Insiders"
   setpath "product" "win32AppId" "{{5893CE20-77AA-4856-A655-ECE65CBCF1C7}"
   setpath "product" "win32x64AppId" "{{7A261980-5847-44B6-B554-31DF0F5CDFC9}"
   setpath "product" "win32arm64AppId" "{{EE4FF7AA-A874-419D-BAE0-168C9DBCE211}"
@@ -166,8 +166,8 @@ if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
   setpath "product" "win32x64UserAppId" "{{5B1813E3-1D97-4E00-AF59-C59A39CF066A}"
   setpath "product" "win32arm64UserAppId" "{{C2FA90D8-B265-41B1-B909-3BAEB21CAA9D}"
 else
-  setpath "product" "nameShort" "Void"
-  setpath "product" "nameLong" "Void"
+  setpath "product" "nameShort" "QingLion"
+  setpath "product" "nameLong" "QingLion"
   setpath "product" "applicationName" "void"
   setpath "product" "linuxIconName" "void"
   setpath "product" "quality" "stable"
@@ -175,12 +175,12 @@ else
   setpath "product" "serverApplicationName" "void-server"
   setpath "product" "serverDataFolderName" ".void-server"
   setpath "product" "darwinBundleIdentifier" "com.void"
-  setpath "product" "win32AppUserModelId" "Void.Void"
-  setpath "product" "win32DirName" "Void"
+  setpath "product" "win32AppUserModelId" "QingLion.QingLion"
+  setpath "product" "win32DirName" "QingLion"
   setpath "product" "win32MutexName" "void"
-  setpath "product" "win32NameVersion" "Void"
-  setpath "product" "win32RegValueName" "Void"
-  setpath "product" "win32ShellNameShort" "Void"
+  setpath "product" "win32NameVersion" "QingLion"
+  setpath "product" "win32RegValueName" "QingLion"
+  setpath "product" "win32ShellNameShort" "QingLion"
   # Void - already set in product
   # setpath "product" "win32AppId" "{{88DA3577-054F-4CA1-8122-7D820494CFFB}"
   # setpath "product" "win32x64AppId" "{{9D394D01-1728-45A7-B997-A6C82C5452C3}"
@@ -200,27 +200,27 @@ cp package.json{,.bak}
 
 setpath "package" "version" "${RELEASE_VERSION%-insider}"
 
-replace 's|Microsoft Corporation|Void|' package.json
+replace 's|Microsoft Corporation|QingLion|' package.json
 
 cp resources/server/manifest.json{,.bak}
 
 if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-  setpath "resources/server/manifest" "name" "Void - Insiders"
-  setpath "resources/server/manifest" "short_name" "Void - Insiders"
+  setpath "resources/server/manifest" "name" "QingLion - Insiders"
+  setpath "resources/server/manifest" "short_name" "QingLion - Insiders"
 else
-  setpath "resources/server/manifest" "name" "Void"
-  setpath "resources/server/manifest" "short_name" "Void"
+  setpath "resources/server/manifest" "name" "QingLion"
+  setpath "resources/server/manifest" "short_name" "QingLion"
 fi
 
 cp resources/server/manifest.json{,.bak}
 
 if [[ "${VSCODE_QUALITY}" == "insider" ]]; then
-  setpath "resources/server/manifest" "name" "Void - Insiders"
-  setpath "resources/server/manifest" "short_name" "Void - Insiders"
+  setpath "resources/server/manifest" "name" "QingLion - Insiders"
+  setpath "resources/server/manifest" "short_name" "QingLion - Insiders"
 else
-  # Void already has this
-  setpath "resources/server/manifest" "name" "Void"
-  setpath "resources/server/manifest" "short_name" "Void"
+  # QingLion already has this
+  setpath "resources/server/manifest" "name" "QingLion"
+  setpath "resources/server/manifest" "short_name" "QingLion"
 fi
 
 # announcements
@@ -228,10 +228,10 @@ fi
 
 ../undo_telemetry.sh
 
-replace 's|Microsoft Corporation|Void|' build/lib/electron.js
-replace 's|Microsoft Corporation|Void|' build/lib/electron.ts
-replace 's|([0-9]) Microsoft|\1 Void|' build/lib/electron.js
-replace 's|([0-9]) Microsoft|\1 Void|' build/lib/electron.ts
+replace 's|Microsoft Corporation|QingLion|' build/lib/electron.js
+replace 's|Microsoft Corporation|QingLion|' build/lib/electron.ts
+replace 's|([0-9]) Microsoft|\1 QingLion|' build/lib/electron.js
+replace 's|([0-9]) Microsoft|\1 QingLion|' build/lib/electron.ts
 
 if [[ "${OS_NAME}" == "linux" ]]; then
   # microsoft adds their apt repo to sources
@@ -246,30 +246,30 @@ if [[ "${OS_NAME}" == "linux" ]]; then
 
   # fix the packages metadata
   # code.appdata.xml
-  sed -i 's|Visual Studio Code|Void|g' resources/linux/code.appdata.xml
+  sed -i 's|Visual Studio Code|QingLion|g' resources/linux/code.appdata.xml
   sed -i 's|https://code.visualstudio.com/docs/setup/linux|https://ai.qinglion.com|' resources/linux/code.appdata.xml
   sed -i 's|https://code.visualstudio.com/home/home-screenshot-linux-lg.png|https://vscodium.com/img/vscodium.png|' resources/linux/code.appdata.xml
   sed -i 's|https://code.visualstudio.com|https://ai.qinglion.com|' resources/linux/code.appdata.xml
 
   # control.template
   sed -i 's|Microsoft Corporation <vscode-linux@microsoft.com>|QingLion Team <team@qinglion.com>|'  resources/linux/debian/control.template
-  sed -i 's|Visual Studio Code|Void|g' resources/linux/debian/control.template
+  sed -i 's|Visual Studio Code|QingLion|g' resources/linux/debian/control.template
   sed -i 's|https://code.visualstudio.com/docs/setup/linux|https://ai.qinglion.com|' resources/linux/debian/control.template
   sed -i 's|https://code.visualstudio.com|https://ai.qinglion.com|' resources/linux/debian/control.template
 
   # code.spec.template
-  sed -i 's|Microsoft Corporation|Void Team|' resources/linux/rpm/code.spec.template
+  sed -i 's|Microsoft Corporation|QingLion Team|' resources/linux/rpm/code.spec.template
   sed -i 's|Visual Studio Code Team <vscode-linux@microsoft.com>|QingLion Team <team@qinglion.com>|' resources/linux/rpm/code.spec.template
-  sed -i 's|Visual Studio Code|Void|' resources/linux/rpm/code.spec.template
+  sed -i 's|Visual Studio Code|QingLion|' resources/linux/rpm/code.spec.template
   sed -i 's|https://code.visualstudio.com/docs/setup/linux|https://ai.qinglion.com|' resources/linux/rpm/code.spec.template
   sed -i 's|https://code.visualstudio.com|https://ai.qinglion.com|' resources/linux/rpm/code.spec.template
 
   # snapcraft.yaml
-  sed -i 's|Visual Studio Code|Void|'  resources/linux/rpm/code.spec.template
+  sed -i 's|Visual Studio Code|QingLion|'  resources/linux/rpm/code.spec.template
 elif [[ "${OS_NAME}" == "windows" ]]; then
   # code.iss
   sed -i 's|https://code.visualstudio.com|https://ai.qinglion.com|' build/win32/code.iss
-  sed -i 's|Microsoft Corporation|Void|' build/win32/code.iss
+  sed -i 's|Microsoft Corporation|QingLion|' build/win32/code.iss
 fi
 
 cd ..

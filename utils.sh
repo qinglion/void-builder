@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APP_NAME="${APP_NAME:-Void}"
+APP_NAME="${APP_NAME:-QingLion}"
 APP_NAME_LC="$( echo "${APP_NAME}" | awk '{print tolower($0)}' )"
 BINARY_NAME="${BINARY_NAME:-void}"
 GH_REPO_PATH="${GH_REPO_PATH:-qinglion/void}"
