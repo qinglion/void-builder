@@ -245,7 +245,7 @@ jobs:
       - name: Code Signing with SSL.com
         uses: sslcom/esigner-codesign@develop
         with:
-          command: sign
+          command: batch_sign
           username: ${{ secrets.ES_USERNAME }}
           password: ${{ secrets.ES_PASSWORD }}
           credential_id: ${{ secrets.CREDENTIAL_ID }}
