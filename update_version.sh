@@ -67,7 +67,7 @@ REPOSITORY_NAME="${VERSIONS_REPOSITORY/*\//}"
 URL_BASE="https://${GH_HOST}/${ASSETS_REPOSITORY}/releases/download/${RELEASE_VERSION}"
 
 generateJson() {
-  local url name version productVersion sha1hash sha256hash timestamp
+  local url name version productVersion sha1hash sha256hash timestamp oss_url
   JSON_DATA="{}"
 
   # generate parts
@@ -85,6 +85,21 @@ generateJson() {
   sha1hash=$( awk '{ print $1 }' "assets/${ASSET_NAME}.sha1" )
   sha256hash=$( awk '{ print $1 }' "assets/${ASSET_NAME}.sha256" )
 
+  # Generate OSS URL if available
+  oss_url=""
+  if [[ -n "${OSS_BUCKET_NAME}" ]] && [[ -n "${OSS_ENDPOINT}" ]]; then
+    # Determine platform for OSS path
+    local platform=""
+    if [[ "${OS_NAME}" == "osx" ]]; then
+      platform="darwin"
+    elif [[ "${OS_NAME}" == "windows" ]]; then
+      platform="win32"
+    else
+      platform="linux"
+    fi
+    oss_url="https://${OSS_BUCKET_NAME}.${OSS_ENDPOINT}/${APP_NAME}/${RELEASE_VERSION}/${platform}/${ASSET_NAME}"
+  fi
+
   # check that nothing is blank (blank indicates something awry with build)
   for key in url name version productVersion sha1hash timestamp sha256hash; do
     if [[ -z "${key}" ]]; then
@@ -93,17 +108,31 @@ generateJson() {
     fi
   done
 
-  # generate json
-  JSON_DATA=$( jq \
-    --arg url             "${url}" \
-    --arg name            "${name}" \
-    --arg version         "${version}" \
-    --arg productVersion  "${productVersion}" \
-    --arg hash            "${sha1hash}" \
-    --arg timestamp       "${timestamp}" \
-    --arg sha256hash      "${sha256hash}" \
-    '. | .url=$url | .name=$name | .version=$version | .productVersion=$productVersion | .hash=$hash | .timestamp=$timestamp | .sha256hash=$sha256hash' \
-    <<<'{}' )
+  # generate json with OSS URL if available
+  if [[ -n "${oss_url}" ]]; then
+    JSON_DATA=$( jq \
+      --arg url             "${url}" \
+      --arg name            "${name}" \
+      --arg version         "${version}" \
+      --arg productVersion  "${productVersion}" \
+      --arg hash            "${sha1hash}" \
+      --arg timestamp       "${timestamp}" \
+      --arg sha256hash      "${sha256hash}" \
+      --arg oss_url         "${oss_url}" \
+      '. | .url=$url | .name=$name | .version=$version | .productVersion=$productVersion | .hash=$hash | .timestamp=$timestamp | .sha256hash=$sha256hash | .oss_url=$oss_url' \
+      <<<'{}' )
+  else
+    JSON_DATA=$( jq \
+      --arg url             "${url}" \
+      --arg name            "${name}" \
+      --arg version         "${version}" \
+      --arg productVersion  "${productVersion}" \
+      --arg hash            "${sha1hash}" \
+      --arg timestamp       "${timestamp}" \
+      --arg sha256hash      "${sha256hash}" \
+      '. | .url=$url | .name=$name | .version=$version | .productVersion=$productVersion | .hash=$hash | .timestamp=$timestamp | .sha256hash=$sha256hash' \
+      <<<'{}' )
+  fi
 }
 
 transformVersion() {
