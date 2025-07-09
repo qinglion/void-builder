@@ -22,32 +22,28 @@ if [[ -z "${OSS_ACCESS_KEY_ID}" ]] || [[ -z "${OSS_ACCESS_KEY_SECRET}" ]] || [[ 
   exit 0
 fi
 
-# Install Alibaba Cloud CLI if not present
-if ! command -v aliyun &> /dev/null; then
-  echo "Installing Alibaba Cloud CLI..."
+# Install ossutil 2.0 if not present
+if ! command -v ossutil &> /dev/null; then
+  echo "Installing ossutil 2.0..."
   
-  # Download and install aliyun CLI
+  # Download and install ossutil 2.0
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    curl -sL https://aliyuncli.alicdn.com/aliyun-cli-linux-latest-amd64.tgz | tar -xz
-    sudo mv aliyun /usr/local/bin/
+    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-linux-amd64.zip -o ossutil.zip
+    unzip ossutil.zip
+    sudo mv ossutil-v2.0.0-linux-amd64/ossutil /usr/local/bin/
+    rm -rf ossutil.zip ossutil-v2.0.0-linux-amd64
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    curl -sL https://aliyuncli.alicdn.com/aliyun-cli-macosx-latest-amd64.tgz | tar -xz
-    sudo mv aliyun /usr/local/bin/
+    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-mac-amd64.zip -o ossutil.zip
+    unzip ossutil.zip
+    sudo mv ossutil-v2.0.0-mac-amd64/ossutil /usr/local/bin/
+    rm -rf ossutil.zip ossutil-v2.0.0-mac-amd64
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
-    curl -sL https://aliyuncli.alicdn.com/aliyun-cli-windows-latest-amd64.zip -o aliyun-cli.zip
-    unzip aliyun-cli.zip
-    mv aliyun.exe /usr/local/bin/
+    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-windows-amd64.zip -o ossutil.zip
+    unzip ossutil.zip
+    mv ossutil-v2.0.0-windows-amd64/ossutil.exe /usr/local/bin/
+    rm -rf ossutil.zip ossutil-v2.0.0-windows-amd64
   fi
 fi
-
-# Configure Alibaba Cloud CLI
-echo "Configuring Alibaba Cloud CLI..."
-aliyun configure set \
-  --profile default \
-  --mode AK \
-  --region "${OSS_REGION}" \
-  --access-key-id "${OSS_ACCESS_KEY_ID}" \
-  --access-key-secret "${OSS_ACCESS_KEY_SECRET}"
 
 # Function to upload file to OSS
 upload_to_oss() {
@@ -60,17 +56,13 @@ upload_to_oss() {
   
   echo "Uploading ${file_name} to OSS..."
   
-  # Upload file with retry logic
+  # Upload file with retry logic using ossutil 2.0
   for i in {1..3}; do
-    if aliyun oss cp "${file_path}" "oss://${OSS_BUCKET_NAME}/${oss_path}" \
-      --endpoint "https://${OSS_ENDPOINT}" \
-      --include "*.zip,*.dmg,*.exe,*.msi,*.deb,*.rpm,*.tar.gz,*.AppImage,*.snap,*.sha1,*.sha256"; then
+    if ossutil cp "${file_path}" "oss://${OSS_BUCKET_NAME}/${oss_path}"; then
       echo "Successfully uploaded ${file_name} to OSS (attempt ${i})"
       
       # Set public read permissions
-      aliyun oss set-acl "oss://${OSS_BUCKET_NAME}/${oss_path}" \
-        --endpoint "https://${OSS_ENDPOINT}" \
-        --acl public-read
+      ossutil set-acl "oss://${OSS_BUCKET_NAME}/${oss_path}" public-read
       
       return 0
     else
