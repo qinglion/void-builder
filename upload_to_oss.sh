@@ -26,22 +26,40 @@ fi
 if ! command -v ossutil &> /dev/null; then
   echo "Installing ossutil 2.0..."
   
-  # Download and install ossutil 2.0
+  # Download and install ossutil 2.1.1
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-linux-amd64.zip -o ossutil.zip
-    unzip ossutil.zip
-    sudo mv ossutil-v2.0.0-linux-amd64/ossutil /usr/local/bin/
-    rm -rf ossutil.zip ossutil-v2.0.0-linux-amd64
+    if [[ "$(uname -m)" == "x86_64" ]]; then
+      curl -sL https://gosspublic.alicdn.com/ossutil/2.1.1/ossutil-v2.1.1-linux-amd64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-v2.1.1-linux-amd64/ossutil
+      sudo mv ossutil-v2.1.1-linux-amd64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-v2.1.1-linux-amd64
+    else
+      curl -sL https://gosspublic.alicdn.com/ossutil/2.1.1/ossutil-v2.1.1-linux-arm64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-v2.1.1-linux-arm64/ossutil
+      sudo mv ossutil-v2.1.1-linux-arm64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-v2.1.1-linux-arm64
+    fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-mac-amd64.zip -o ossutil.zip
-    unzip ossutil.zip
-    sudo mv ossutil-v2.0.0-mac-amd64/ossutil /usr/local/bin/
-    rm -rf ossutil.zip ossutil-v2.0.0-mac-amd64
+    if [[ "$(uname -m)" == "x86_64" ]]; then
+      curl -sL https://gosspublic.alicdn.com/ossutil/2.1.1/ossutil-v2.1.1-mac-amd64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-v2.1.1-mac-amd64/ossutil
+      sudo mv ossutil-v2.1.1-mac-amd64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-v2.1.1-mac-amd64
+    else
+      curl -sL https://gosspublic.alicdn.com/ossutil/2.1.1/ossutil-v2.1.1-mac-arm64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-v2.1.1-mac-arm64/ossutil
+      sudo mv ossutil-v2.1.1-mac-arm64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-v2.1.1-mac-arm64
+    fi
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
-    curl -sL https://gosspublic.alicdn.com/ossutil/2.0.0/ossutil-v2.0.0-windows-amd64.zip -o ossutil.zip
+    curl -sL https://gosspublic.alicdn.com/ossutil/2.1.1/ossutil-v2.1.1-windows-amd64.zip -o ossutil.zip
     unzip ossutil.zip
-    mv ossutil-v2.0.0-windows-amd64/ossutil.exe /usr/local/bin/
-    rm -rf ossutil.zip ossutil-v2.0.0-windows-amd64
+    mv ossutil-v2.1.1-windows-amd64/ossutil.exe /usr/local/bin/
+    rm -rf ossutil.zip ossutil-v2.1.1-windows-amd64
   fi
 fi
 
@@ -56,13 +74,19 @@ upload_to_oss() {
   
   echo "Uploading ${file_name} to OSS..."
   
-  # Upload file with retry logic using ossutil 2.0
+  # Upload file with retry logic using ossutil 2.0 with command line options
   for i in {1..3}; do
-    if ossutil cp "${file_path}" "oss://${OSS_BUCKET_NAME}/${oss_path}"; then
+    if ossutil cp "${file_path}" "oss://${OSS_BUCKET_NAME}/${oss_path}" \
+      --access-key-id "${OSS_ACCESS_KEY_ID}" \
+      --access-key-secret "${OSS_ACCESS_KEY_SECRET}" \
+      --endpoint "https://${OSS_ENDPOINT}"; then
       echo "Successfully uploaded ${file_name} to OSS (attempt ${i})"
       
       # Set public read permissions
-      ossutil set-acl "oss://${OSS_BUCKET_NAME}/${oss_path}" public-read
+      ossutil set-acl "oss://${OSS_BUCKET_NAME}/${oss_path}" public-read \
+        --access-key-id "${OSS_ACCESS_KEY_ID}" \
+        --access-key-secret "${OSS_ACCESS_KEY_SECRET}" \
+        --endpoint "https://${OSS_ENDPOINT}"
       
       return 0
     else
