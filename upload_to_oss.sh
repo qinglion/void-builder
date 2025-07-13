@@ -42,19 +42,11 @@ if ! command -v ossutil &> /dev/null; then
       rm -rf ossutil.zip ossutil-v2.1.1-linux-arm64
     fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    if [[ "$(uname -m)" == "x86_64" ]]; then
-      curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-mac-amd64.zip -o ossutil.zip
-      unzip ossutil.zip
-      chmod 755 ossutil-v2.1.1-mac-amd64/ossutil
-      sudo mv ossutil-v2.1.1-mac-amd64/ossutil /usr/local/bin/
-      rm -rf ossutil.zip ossutil-v2.1.1-mac-amd64
-    else
-      curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-mac-arm64.zip -o ossutil.zip
-      unzip ossutil.zip
-      chmod 755 ossutil-v2.1.1-mac-arm64/ossutil
-      sudo mv ossutil-v2.1.1-mac-arm64/ossutil /usr/local/bin/
-      rm -rf ossutil.zip ossutil-v2.1.1-mac-arm64
-    fi
+    curl -o ossutil-2.1.1-mac-arm64.zip  https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-mac-arm64.zip
+    unzip ossutil-2.1.1-mac-arm64.zip
+    chmod 755 ossutil-2.1.1-mac-arm64/ossutil
+    sudo mv ossutil-2.1.1-mac-arm64/ossutil /usr/local/bin/
+    rm -rf ossutil.zip ossutil-2.1.1-mac-arm64
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
     curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-windows-amd64-go1.20.zip -o ossutil.zip
     unzip ossutil.zip
