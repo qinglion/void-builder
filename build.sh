@@ -36,7 +36,7 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
 
     . ../build_cli.sh
 
-    VSCODE_PLATFORM="darwin"
+    export VSCODE_PLATFORM="darwin"
   elif [[ "${OS_NAME}" == "windows" ]]; then
     # generate Group Policy definitions
     # node build/lib/policies win32 # Void commented this out
@@ -55,7 +55,7 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
       . ../build_cli.sh
     fi
 
-    VSCODE_PLATFORM="win32"
+    export VSCODE_PLATFORM="win32"
   else # linux
     # in CI, packaging will be done by a different job
     if [[ "${CI_BUILD}" == "no" ]]; then
@@ -66,7 +66,7 @@ if [[ "${SHOULD_BUILD}" == "yes" ]]; then
       . ../build_cli.sh
     fi
 
-    VSCODE_PLATFORM="linux"
+    export VSCODE_PLATFORM="linux"
   fi
 
   if [[ "${SHOULD_BUILD_REH}" != "no" ]]; then

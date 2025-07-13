@@ -91,7 +91,7 @@ if [[ "${OS_NAME}" == "osx" ]]; then
     security list-keychains -s $KEYCHAINS
   fi
 
-  VSCODE_PLATFORM="darwin"
+  export VSCODE_PLATFORM="darwin"
 elif [[ "${OS_NAME}" == "windows" ]]; then
   cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
@@ -143,7 +143,7 @@ elif [[ "${OS_NAME}" == "windows" ]]; then
     fi
   fi
 
-  VSCODE_PLATFORM="win32"
+  export VSCODE_PLATFORM="win32"
 else
   cd vscode || { echo "'vscode' dir not found"; exit 1; }
 
@@ -199,7 +199,7 @@ else
     find assets -name '*.AppImage*' -exec bash -c 'mv $0 ${0/_-_/-}' {} \;
   fi
 
-  VSCODE_PLATFORM="linux"
+  export VSCODE_PLATFORM="linux"
 fi
 
 if [[ "${SHOULD_BUILD_REH}" != "no" ]]; then
