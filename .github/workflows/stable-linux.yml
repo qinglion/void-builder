@@ -279,6 +279,7 @@ jobs:
           OSS_BUCKET_NAME: ${{ secrets.OSS_BUCKET_NAME }}
           OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
           OSS_REGION: ${{ secrets.OSS_REGION }}
+          VSCODE_PLATFORM: linux
         run: ./upload_to_oss.sh
         if: env.DISABLED != 'yes' && env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'yes'
 

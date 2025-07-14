@@ -92,31 +92,22 @@ upload_to_oss() {
   done
 }
 
-# Function to get platform from file name
-get_platform_from_filename() {
-  local filename="$1"
-  
-  if [[ "$filename" =~ darwin|osx ]]; then
-    echo "darwin"
-  elif [[ "$filename" =~ win32|windows ]]; then
-    echo "win32"
-  elif [[ "$filename" =~ linux ]]; then
-    echo "linux"
-  else
-    # Default to current platform
-    echo "${VSCODE_PLATFORM:-linux}"
-  fi
+# Function to get platform from environment variable
+get_platform() {
+  # Use VSCODE_PLATFORM environment variable if set, otherwise default to linux
+  echo "${VSCODE_PLATFORM:-linux}"
 }
 
 # Upload assets to OSS
 cd assets
 
 echo "Starting OSS upload for all assets..."
+echo "Using platform: $(get_platform)"
 
 # Upload all files
 for file in *; do
   if [[ -f "$file" ]]; then
-    platform=$(get_platform_from_filename "$file")
+    platform=$(get_platform)
     
     echo "::group::Uploading '${file}' to OSS at $(date "+%T")"
     
@@ -139,7 +130,7 @@ mkdir -p ../oss_urls
 
 for file in *; do
   if [[ -f "$file" ]] && [[ "$file" != *.sha1 ]] && [[ "$file" != *.sha256 ]]; then
-    platform=$(get_platform_from_filename "$file")
+    platform=$(get_platform)
     oss_url="https://${OSS_BUCKET_NAME}.${OSS_ENDPOINT}/${APP_NAME}/${RELEASE_VERSION}/${platform}/${file}"
     echo "$oss_url" >> "../oss_urls/${file}.url"
     echo "OSS URL for ${file}: ${oss_url}"
