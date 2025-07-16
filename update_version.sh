@@ -70,8 +70,25 @@ generateJson() {
   local url name version productVersion sha1hash sha256hash timestamp oss_url
   JSON_DATA="{}"
 
-  # generate parts
-  url="${URL_BASE}/${ASSET_NAME}"
+  # Determine platform for OSS path
+  local platform=""
+  if [[ "${OS_NAME}" == "osx" ]]; then
+    platform="darwin"
+  elif [[ "${OS_NAME}" == "windows" ]]; then
+    platform="win32"
+  else
+    platform="linux"
+  fi
+
+  # Generate OSS CDN URL as primary URL
+  if [[ -n "${OSS_BUCKET_NAME}" ]] && [[ -n "${OSS_ENDPOINT}" ]]; then
+    # Use OSS CDN URL as primary URL for better global access
+    url="https://d.qinglion.com/${APP_NAME}/${RELEASE_VERSION}/${platform}/${ASSET_NAME}"
+  else
+    # Fallback to GitHub Release URL if OSS is not configured
+    url="${URL_BASE}/${ASSET_NAME}"
+  fi
+
   name="${RELEASE_VERSION}"
   version="${BUILD_SOURCEVERSION}"
   productVersion="$( transformVersion "${RELEASE_VERSION}" )"
@@ -85,18 +102,9 @@ generateJson() {
   sha1hash=$( awk '{ print $1 }' "assets/${ASSET_NAME}.sha1" )
   sha256hash=$( awk '{ print $1 }' "assets/${ASSET_NAME}.sha256" )
 
-  # Generate OSS URL if available
+  # Generate OSS URL for backup (keeping the original OSS URL format)
   oss_url=""
   if [[ -n "${OSS_BUCKET_NAME}" ]] && [[ -n "${OSS_ENDPOINT}" ]]; then
-    # Determine platform for OSS path
-    local platform=""
-    if [[ "${OS_NAME}" == "osx" ]]; then
-      platform="darwin"
-    elif [[ "${OS_NAME}" == "windows" ]]; then
-      platform="win32"
-    else
-      platform="linux"
-    fi
     oss_url="https://${OSS_BUCKET_NAME}.${OSS_ENDPOINT}/${APP_NAME}/${RELEASE_VERSION}/${platform}/${ASSET_NAME}"
   fi
 
