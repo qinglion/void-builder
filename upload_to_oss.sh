@@ -50,7 +50,7 @@ if ! command -v ossutil &> /dev/null; then
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
     curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-windows-amd64-go1.20.zip -o ossutil.zip
     unzip ossutil.zip
-    mv ossutil-v2.1.1-windows-amd64/ossutil.exe /usr/local/bin/
+    mv ossutil-2.1.1-windows-amd64-go1.20/ossutil.exe /usr/local/bin/
     rm -rf ossutil.zip ossutil-v2.1.1-windows-amd64
   fi
 fi
