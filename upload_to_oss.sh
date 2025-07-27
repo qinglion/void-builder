@@ -35,11 +35,11 @@ if ! command -v ossutil &> /dev/null; then
       sudo mv ossutil-v2.1.1-linux-amd64/ossutil /usr/local/bin/
       rm -rf ossutil.zip ossutil-v2.1.1-linux-amd64
     else
-      curl -sL hhttps://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-linux-amd64.zip -o ossutil.zip
+      curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-linux-arm64.zip -o ossutil.zip
       unzip ossutil.zip
-      chmod 755 ossutil-v2.1.1-linux-arm64/ossutil
-      sudo mv ossutil-v2.1.1-linux-arm64/ossutil /usr/local/bin/
-      rm -rf ossutil.zip ossutil-v2.1.1-linux-arm64
+      chmod 755 ossutil-2.1.1-linux-arm64/ossutil
+      sudo mv ossutil-2.1.1-linux-arm64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-2.1.1-linux-arm64
     fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
     curl -o ossutil-2.1.1-mac-arm64.zip  https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-mac-arm64.zip
@@ -50,8 +50,12 @@ if ! command -v ossutil &> /dev/null; then
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
     curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-windows-amd64-go1.20.zip -o ossutil.zip
     unzip ossutil.zip
-    mv ossutil-2.1.1-windows-amd64-go1.20/ossutil.exe /usr/local/bin/
-    rm -rf ossutil.zip ossutil-v2.1.1-windows-amd64
+    # Create local bin directory if it doesn't exist and move ossutil there
+    mkdir -p "./bin"
+    mv ossutil-2.1.1-windows-amd64-go1.20/ossutil.exe ./bin/
+    # Add local bin to PATH for current session
+    export PATH="$(pwd)/bin:$PATH"
+    rm -rf ossutil.zip ossutil-2.1.1-windows-amd64-go1.20
   fi
 fi
 
