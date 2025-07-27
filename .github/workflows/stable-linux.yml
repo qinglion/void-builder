@@ -272,17 +272,6 @@ jobs:
         run: ./release.sh
         if: env.DISABLED != 'yes' && env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'yes'
 
-      - name: Upload to OSS
-        env:
-          OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-          OSS_BUCKET_NAME: ${{ secrets.OSS_BUCKET_NAME }}
-          OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
-          OSS_REGION: ${{ secrets.OSS_REGION }}
-          VSCODE_PLATFORM: linux
-        run: ./upload_to_oss.sh
-        if: env.DISABLED != 'yes' && env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'yes'
-
       - name: Update versions repo
         env:
           FORCE_UPDATE: ${{ github.event.inputs.force_version }}
