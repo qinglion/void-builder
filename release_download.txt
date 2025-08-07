@@ -1,0 +1,29 @@
+---
+title: 下载青狮诉讼可视化
+description: 下载青狮诉讼可视化最新版本，开始您的专业诉讼可视化之旅
+template: splash
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+> 体验专业的诉讼可视化工具，帮助您更高效地处理复杂案件。
+
+## 最新版本
+
+<CardGrid>
+  <Card title="macOS Apple Silicon" icon="apple">
+    [下载 macOS Apple Silicon 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion-darwin-arm64-RELEASE_VERSION.dmg)
+  </Card>
+
+  <Card title="macOS Intel" icon="apple">
+    [下载 macOS Intel 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion-darwin-x64-RELEASE_VERSION.dmg)
+  </Card>
+  
+  <Card title="Windows" icon="seti:windows">
+    [下载 Windows 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionUserSetup-x64-RELEASE_VERSION.exe)
+  </Card>
+
+  <Card title="ARM" icon="seti:windows">
+    [下载 Windows ARM 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionUserSetup-arm64-RELEASE_VERSION.exe)
+  </Card>
+</CardGrid>

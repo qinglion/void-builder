@@ -43,6 +43,61 @@ if [[ $( gh release view "${RELEASE_VERSION}" --repo "${ASSETS_REPOSITORY}" 2>&1
     replace "s|RELEASE_NOTES|${RELEASE_NOTES//$'\n'/\\n}|" release_notes.txt
 
     gh release edit "${RELEASE_VERSION}" --repo "${ASSETS_REPOSITORY}" --notes-file release_notes.txt
+
+    # Update download.mdx in docs.ai.qinglion.com via GitHub API
+    echo "Updating download.mdx file via GitHub API..."
+    DOCS_REPO="haozan/docs.ai.qinglion.com"
+    DOCS_FILE_PATH="src/content/docs/download.mdx"
+    
+    # Create updated content from template
+    cp release_download.txt download_updated.mdx
+    replace "s|RELEASE_VERSION|${RELEASE_VERSION}|g" download_updated.mdx
+    
+    # Get current file SHA (required for GitHub API update)
+    CURRENT_SHA=$(gh api repos/"${DOCS_REPO}"/contents/"${DOCS_FILE_PATH}" --jq '.sha' 2>/dev/null || echo "")
+    
+    # Handle base64 encoding for different OS
+    if command -v base64 >/dev/null 2>&1; then
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS base64
+        CONTENT_BASE64=$(base64 -i download_updated.mdx)
+      else
+        # Linux base64
+        CONTENT_BASE64=$(base64 -w 0 download_updated.mdx)
+      fi
+      
+      if [[ -n "${CURRENT_SHA}" ]]; then
+        # File exists, update it
+        echo "Updating existing download.mdx file..."
+        if gh api repos/"${DOCS_REPO}"/contents/"${DOCS_FILE_PATH}" \
+          --method PUT \
+          --field message="Auto-update download links for version ${RELEASE_VERSION}" \
+          --field content="${CONTENT_BASE64}" \
+          --field sha="${CURRENT_SHA}" \
+          --field branch="main"; then
+          echo "Successfully updated download.mdx with version ${RELEASE_VERSION}"
+        else
+          echo "Warning: Failed to update download.mdx via GitHub API"
+        fi
+      else
+        # File doesn't exist, create it
+        echo "Creating new download.mdx file..."
+        if gh api repos/"${DOCS_REPO}"/contents/"${DOCS_FILE_PATH}" \
+          --method PUT \
+          --field message="Auto-create download links for version ${RELEASE_VERSION}" \
+          --field content="${CONTENT_BASE64}" \
+          --field branch="main"; then
+          echo "Successfully created download.mdx with version ${RELEASE_VERSION}"
+        else
+          echo "Warning: Failed to create download.mdx via GitHub API"
+        fi
+      fi
+    else
+      echo "Warning: base64 command not found, skipping download.mdx update"
+    fi
+    
+    # Clean up temporary file
+    rm -f download_updated.mdx
   fi
 fi
 
