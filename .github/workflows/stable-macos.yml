@@ -127,6 +127,7 @@ jobs:
           OSS_ENDPOINT: ${{ secrets.OSS_ENDPOINT }}
           OSS_REGION: ${{ secrets.OSS_REGION }}
           VSCODE_PLATFORM: darwin
+          PUBLIC_DOWNLOAD_DOMAIN: d.qinglion.com
         run: ./upload_to_oss.sh
         if: env.SHOULD_BUILD == 'yes' && env.SHOULD_DEPLOY == 'yes'
 

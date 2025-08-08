@@ -42,11 +42,21 @@ if ! command -v ossutil &> /dev/null; then
       rm -rf ossutil.zip ossutil-2.1.1-linux-arm64
     fi
   elif [[ "$OSTYPE" == "darwin"* ]]; then
-    curl -o ossutil-2.1.1-mac-arm64.zip  https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-mac-arm64.zip
-    unzip ossutil-2.1.1-mac-arm64.zip
-    chmod 755 ossutil-2.1.1-mac-arm64/ossutil
-    sudo mv ossutil-2.1.1-mac-arm64/ossutil /usr/local/bin/
-    rm -rf ossutil.zip ossutil-2.1.1-mac-arm64
+    if [[ "$(uname -m)" == "x86_64" ]]; then
+      # macOS Intel
+      curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.2/ossutil-2.1.2-mac-amd64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-2.1.1-mac-amd64/ossutil
+      sudo mv ossutil-2.1.1-mac-amd64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-2.1.1-mac-amd64
+    else
+      # macOS Apple Silicon
+      curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.2/ossutil-2.1.2-mac-arm64.zip -o ossutil.zip
+      unzip ossutil.zip
+      chmod 755 ossutil-2.1.1-mac-arm64/ossutil
+      sudo mv ossutil-2.1.1-mac-arm64/ossutil /usr/local/bin/
+      rm -rf ossutil.zip ossutil-2.1.1-mac-arm64
+    fi
   elif [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
     curl -sL https://gosspublic.alicdn.com/ossutil/v2/2.1.1/ossutil-2.1.1-windows-amd64-go1.20.zip -o ossutil.zip
     unzip ossutil.zip
@@ -135,7 +145,13 @@ mkdir -p ../oss_urls
 for file in *; do
   if [[ -f "$file" ]] && [[ "$file" != *.sha1 ]] && [[ "$file" != *.sha256 ]]; then
     platform=$(get_platform)
-    oss_url="https://${OSS_BUCKET_NAME}.${OSS_ENDPOINT}/${APP_NAME}/${RELEASE_VERSION}/${platform}/${file}"
+    # Prefer custom public download domain when provided, fallback to default bucket endpoint
+    if [[ -n "${PUBLIC_DOWNLOAD_DOMAIN}" ]]; then
+      base_url="https://${PUBLIC_DOWNLOAD_DOMAIN}"
+    else
+      base_url="https://${OSS_BUCKET_NAME}.${OSS_ENDPOINT}"
+    fi
+    oss_url="${base_url}/${APP_NAME}/${RELEASE_VERSION}/${platform}/${file}"
     echo "$oss_url" >> "../oss_urls/${file}.url"
     echo "OSS URL for ${file}: ${oss_url}"
   fi
