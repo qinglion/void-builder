@@ -12,18 +12,18 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 <CardGrid>
   <Card title="macOS Apple Silicon" icon="apple">
-    [下载 macOS Apple Silicon 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion-darwin-arm64-RELEASE_VERSION.dmg)
+    [下载 macOS Apple Silicon 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion.arm64.RELEASE_VERSION.dmg)
   </Card>
 
   <Card title="macOS Intel" icon="apple">
-    [下载 macOS Intel 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion-darwin-x64-RELEASE_VERSION.dmg)
+    [下载 macOS Intel 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/darwin/QingLion.x64.RELEASE_VERSION.dmg)
   </Card>
   
   <Card title="Windows" icon="seti:windows">
-    [下载 Windows 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionUserSetup-x64-RELEASE_VERSION.exe)
+    [下载 Windows 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionSetup-x64-RELEASE_VERSION.exe)
   </Card>
 
   <Card title="ARM" icon="seti:windows">
-    [下载 Windows ARM 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionUserSetup-arm64-RELEASE_VERSION.exe)
+    [下载 Windows ARM 版本](https://d.qinglion.com/QingLion/RELEASE_VERSION/win32/QingLionSetup-arm64-RELEASE_VERSION.exe)
   </Card>
 </CardGrid>
